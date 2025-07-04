@@ -82,7 +82,7 @@ services:
         [
           "CMD",
           "wget",
-          "--no-verbose",
+          "--no-verbose"d,
           "--tries=1",
           "--spider",
           "http://localhost:9999/health"
@@ -91,8 +91,8 @@ services:
       interval: 5s
       retries: 3
     depends_on:
-      - analytics:
-          condition: service_healthy
+      analytics:
+        condition: service_healthy
     environment:
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
@@ -157,8 +157,8 @@ services:
     image: postgrest/postgrest:v12.2.12
     restart: unless-stopped
     depends_on:
-      - analytics:
-          condition: service_healthy
+      analytics:
+        condition: service_healthy
     environment:
       PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
@@ -230,9 +230,9 @@ services:
       interval: 5s
       retries: 3
     depends_on:
-      - rest:
+      rest:
         condition: service_started
-      - imgproxy:
+      imgproxy:
         condition: service_started
     environment:
       ANON_KEY: ${ANON_KEY}
@@ -270,8 +270,8 @@ services:
     image: supabase/postgres-meta:v0.89.0
     restart: unless-stopped
     depends_on:
-      - analytics:
-          condition: service_healthy
+      analytics:
+        condition: service_healthy
     environment:
       PG_META_PORT: 8080
       PG_META_DB_HOST: ${POSTGRES_HOST}
@@ -286,8 +286,8 @@ services:
     volumes:
       - ./volumes/functions:/home/deno/functions:Z
     depends_on:
-      - analytics:
-          condition: service_healthy
+      analytics:
+        condition: service_healthy
     environment:
       JWT_SECRET: ${JWT_SECRET}
       SUPABASE_URL: http://kong:8000
